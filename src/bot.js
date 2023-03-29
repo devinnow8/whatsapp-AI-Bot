@@ -25,4 +25,4 @@ const handleResponse = async (conCatString) => {
   return response.data.choices[0].text;
 };
 
-module.export = handleResponse;
+module.exports = { handleResponse };

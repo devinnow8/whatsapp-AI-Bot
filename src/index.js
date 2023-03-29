@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { createBot } = require("whatsapp-cloud-api");
-const handleResponse = require("./bot");
+const { handleResponse } = require("./bot");
 
 const usersResponse = [];
 
