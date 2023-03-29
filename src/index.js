@@ -5,7 +5,7 @@ const handleResponse = require("./bot");
 const usersResponse = [];
 
 const findUser = (user) => {
-  usersResponse.find((res) => res.userNumber === user);
+  return usersResponse.find((res) => res.userNumber === user);
 };
 
 (async () => {
