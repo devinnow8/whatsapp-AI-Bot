@@ -1,13 +1,13 @@
+require("dotenv").config();
 const { createBot } = require("whatsapp-cloud-api");
 
 (async () => {
   try {
     // replace the values below from the values you copied above
-    const from = "102056232854880";
-    const token =
-      "EAAXY0iE7ZBEEBAD3pHsU9GPuSnZAmD7ZBhzJEuSa5ExvWwDR3As3LQnYc1dLaRkF37kSRvb5RyYU41WaSDE55G0ula0hbCNzDV7RqtVN3SNFcZBnvXuU1ZAEZBjilftJty74dVcrFkfSnV7PiEemPsUZChhfDemSPZCLatUSYK4n61PORNk2IlSWZCx9a7FZBugNa13ZAt73KwvwYVsQUAgFbrn";
-    const to = "919646967716"; // your phone number without the leading '+'
-    const webhookVerifyToken = "12345"; // use a random value, e.g. 'bju#hfre@iu!e87328eiekjnfw'
+    const from = process.env.FROM,
+      token = process.env.TOKEN,
+      to = process.env.TO, // your phone number without the leading '+'
+      webhookVerifyToken = process.env.WEBHOOKVERIFYTOKEN; // use a random value, e.g. 'bju#hfre@iu!e87328eiekjnfw'
 
     const bot = createBot(from, token);
 
