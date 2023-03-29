@@ -36,7 +36,7 @@ const findUser = (user) => {
           const index = usersResponse.findIndex((item) => item.userNumber === msg.from);
           usersResponse[index].text.push(msg.data.text);
           // usersResponse.findIndex(user => user.userNumber === userExist.userNumber)
-          let conCatString = usersResponse[index].text.join("\\n") + usersResponse[index].text.length > 1 ? "\\n" : "";
+          let conCatString = usersResponse[index].text.join("\\n") + "\\n";
 
           const response = await handleResponse(conCatString);
           console.log(response, conCatString, "<===== response");
