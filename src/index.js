@@ -22,8 +22,13 @@ const findUser = (user) => {
     // const result = await bot.sendTemplate(to, "hello_world", "en_US");
 
     // Start express server to listen for incoming messages
-    await bot.startExpressServer({
+    const { app } = await bot.startExpressServer({
       webhookVerifyToken,
+    });
+
+    app.get("/privacy-policy", (req, res) => {
+      console.log("pp");
+      res.sendFile(__dirname + "/privacy-policy.html");
     });
 
     // Listen to ALL incoming messages
