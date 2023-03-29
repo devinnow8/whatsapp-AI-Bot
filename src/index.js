@@ -12,7 +12,7 @@ const { createBot } = require("whatsapp-cloud-api");
     const bot = createBot(from, token);
 
     // const result = await bot.sendText(to, "Hello world");
-    const result = await bot.sendTemplate(to, "hello_world", "en_US");
+    // const result = await bot.sendTemplate(to, "hello_world", "en_US");
 
     // Start express server to listen for incoming messages
     await bot.startExpressServer({
