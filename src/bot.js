@@ -15,13 +15,6 @@ const handleResponse = async (conCatString) => {
     frequency_penalty: 0,
     presence_penalty: 0,
   });
-
-  const data = [];
-  data.push({
-    text: response.data.choices[0].text,
-  });
-
-  //   setResponseAI(response.data.choices[0].text.split(":")[1]);
   return response.data.choices[0].text;
 };
 

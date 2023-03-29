@@ -32,12 +32,16 @@ const findUser = (user) => {
       const userExist = findUser(msg.from);
       if (userExist) {
         try {
-          let conCatString = userExist.text.join("\\n");
+          // usersResponse.text.push(msg.data.text);
+          const index = usersResponse.findIndex((item) => item.userNumber === msg.from);
+          usersResponse[index].text.push(msg.data.text);
+          // usersResponse.findIndex(user => user.userNumber === userExist.userNumber)
+          let conCatString = usersResponse[index].text.join("\\n");
 
           const response = await handleResponse(conCatString);
           console.log(response, conCatString, "<===== response");
 
-          await bot.sendText(msg.from, "Received your text message!");
+          await bot.sendText(msg.from, response);
         } catch (error) {
           console.log(error, "error===>");
         }
