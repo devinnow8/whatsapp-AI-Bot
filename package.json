@@ -1,0 +1,25 @@
+{
+  "name": "whatsapp-ai-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devinnow8/whatsapp-AI-Bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devinnow8/whatsapp-AI-Bot/issues"
+  },
+  "homepage": "https://github.com/devinnow8/whatsapp-AI-Bot#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22",
+    "whatsapp-cloud-api": "^0.2.6"
+  }
+}
