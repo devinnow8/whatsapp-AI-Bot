@@ -31,11 +31,12 @@ const findUser = (user) => {
       console.log(msg);
       const userExist = findUser(msg.from);
       if (userExist) {
-        let conCatString = userExist.text.join("\\n");
-        const response = await handleResponse(conCatString);
-
-        console.log(response, conCatString, "<===== response");
         try {
+          let conCatString = userExist.text.join("\\n");
+
+          const response = await handleResponse(conCatString);
+          console.log(response, conCatString, "<===== response");
+
           await bot.sendText(msg.from, "Received your text message!");
         } catch (error) {
           console.log(error, "error===>");
