@@ -23,10 +23,10 @@ const { createBot } = require("whatsapp-cloud-api");
     bot.on("message", async (msg) => {
       console.log(msg);
 
-      if (msg.type === "text") {
+      try {
         await bot.sendText(msg.from, "Received your text message!");
-      } else if (msg.type === "image") {
-        await bot.sendText(msg.from, "Received your image!");
+      } catch (error) {
+        console.log(error, "error===>");
       }
     });
   } catch (err) {
