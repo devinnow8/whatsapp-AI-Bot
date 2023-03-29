@@ -38,6 +38,11 @@ const findUser = (user) => {
           // usersResponse.findIndex(user => user.userNumber === userExist.userNumber)
           let conCatString = usersResponse[index].text.join("\\n") + "\\n";
 
+          //           let conCatString = '',
+          //           usersResponse[index]?.text?.forEach((item) => {
+          //     conCatString += item + "\\n";
+          //   });
+
           const response = await handleResponse(conCatString);
           console.log(response, conCatString, "<===== response");
 
