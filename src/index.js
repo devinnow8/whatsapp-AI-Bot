@@ -18,16 +18,12 @@ const findUser = (user) => {
 
     const bot = createBot(from, token);
 
-    // const result = await bot.sendText(to, "Hello world");
-    // const result = await bot.sendTemplate(to, "hello_world", "en_US");
-
     // Start express server to listen for incoming messages
     const { app } = await bot.startExpressServer({
       webhookVerifyToken,
     });
 
     app.get("/privacy-policy", (req, res) => {
-      console.log("pp");
       res.sendFile(__dirname + "/privacy-policy.html");
     });
 
@@ -37,19 +33,15 @@ const findUser = (user) => {
       const userExist = findUser(msg.from);
       if (userExist) {
         try {
-          // usersResponse.text.push(msg.data.text);
           const index = usersResponse.findIndex((item) => item.userNumber === msg.from);
-          usersResponse[index].text.push(msg.data.text);
-          // usersResponse.findIndex(user => user.userNumber === userExist.userNumber)
-          let conCatString = usersResponse[index].text.join("\\n") + "\\n";
+          //   usersResponse[index].text.push(msg.data.text);
+          const messagesArr = usersResponse[index].text;
+          messagesArr.push(`${msg.name}:${msg.data.text}`);
 
-          //           let conCatString = '',
-          //           usersResponse[index]?.text?.forEach((item) => {
-          //     conCatString += item + "\\n";
-          //   });
-
+          let conCatString = messagesArr.join("\\n") + "\\n";
           const response = await handleResponse(conCatString);
-          console.log(response, conCatString, "<===== response");
+          console.log(response, conCatString, "<===== response", "messagesArr==>", messagesArr);
+          messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI:${response}`);
 
           await bot.sendText(msg.from, response);
         } catch (error) {
@@ -60,7 +52,7 @@ const findUser = (user) => {
           await bot.sendText(msg.from, `Hello ${msg.name}`);
           usersResponse.push({
             userNumber: msg.from,
-            text: [msg.data.text],
+            text: [`${msg.name}: ${msg.data.text}\nAI:Hello ${msg.name}`],
           });
         } catch (error) {
           console.log(error, "error===>");
@@ -69,5 +61,6 @@ const findUser = (user) => {
     });
   } catch (err) {
     console.log(err);
+    await bot.sendText(msg.from, `Sorry we can't proceed your request`);
   }
 })();
