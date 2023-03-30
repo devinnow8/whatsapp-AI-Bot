@@ -15,6 +15,7 @@ const handleResponse = async (conCatString) => {
     frequency_penalty: 0,
     presence_penalty: 0,
   });
+  console.log(response, "responseresponse==>>1234");
   return response.data.choices[0].text.split(":")[1];
 };
 
