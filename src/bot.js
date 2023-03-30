@@ -15,7 +15,7 @@ const handleResponse = async (conCatString) => {
     frequency_penalty: 0,
     presence_penalty: 0,
   });
-  return response.data.choices[0].text;
+  return response.data.choices[0].text.split(":")[1];
 };
 
 module.exports = { handleResponse };
