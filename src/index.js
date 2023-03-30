@@ -1,12 +1,10 @@
 require("dotenv").config();
-const { createBot } = require("whatsapp-cloud-api");
-const { handleResponse } = require("./bot");
-
-const usersResponse = [];
-
-const findUser = (user) => {
-  return usersResponse.find((res) => res.userNumber === user);
-};
+const { createBot } = require("whatsapp-cloud-api"),
+  { handleResponse } = require("./bot"),
+  usersResponse = [],
+  findUser = (user) => {
+    return usersResponse.find((res) => res.userNumber === user);
+  };
 
 (async () => {
   try {
@@ -14,14 +12,12 @@ const findUser = (user) => {
     const from = process.env.FROM,
       token = process.env.TOKEN,
       to = process.env.TO, // your phone number without the leading '+'
-      webhookVerifyToken = process.env.WEBHOOKVERIFYTOKEN; // use a random value, e.g. 'bju#hfre@iu!e87328eiekjnfw'
-
-    const bot = createBot(from, token);
-
-    // Start express server to listen for incoming messages
-    const { app } = await bot.startExpressServer({
-      webhookVerifyToken,
-    });
+      webhookVerifyToken = process.env.WEBHOOKVERIFYTOKEN, // use a random value, e.g. 'bju#hfre@iu!e87328eiekjnfw'
+      bot = createBot(from, token),
+      // Start express server to listen for incoming messages
+      { app } = await bot.startExpressServer({
+        webhookVerifyToken,
+      });
 
     app.get("/privacy-policy", (req, res) => {
       res.sendFile(__dirname + "/privacy-policy.html");
@@ -46,7 +42,7 @@ const findUser = (user) => {
 
           await bot.sendText(msg.from, response);
         } catch (error) {
-          console.log(error, "error===>");
+          console.error(error, "error===>");
         }
       } else {
         try {
@@ -56,12 +52,12 @@ const findUser = (user) => {
             text: [`${msg.name}: ${msg.data.text}\nAI:Hello ${msg.name}`],
           });
         } catch (error) {
-          console.log(error, "error===>");
+          console.error(error, "error===>");
         }
       }
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     await bot.sendText(msg.from, `Sorry we can't proceed your request`);
   }
 })();
