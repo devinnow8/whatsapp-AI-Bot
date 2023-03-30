@@ -33,9 +33,8 @@ const findUser = (user) => {
       const userExist = findUser(msg.from);
       if (userExist) {
         try {
-          const index = usersResponse.findIndex((item) => item.userNumber === msg.from);
-          //   usersResponse[index].text.push(msg.data.text);
-          const messagesArr = usersResponse[index].text;
+          const index = usersResponse.findIndex((item) => item.userNumber === msg.from),
+            messagesArr = usersResponse[index].text;
           messagesArr.push(`${msg.name}:${msg.data.text}`);
 
           let conCatString = messagesArr.join("\\n") + "\\n";
