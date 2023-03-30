@@ -31,7 +31,6 @@ const findUser = (user) => {
     bot.on("message", async (msg) => {
       console.log(msg);
       const userExist = findUser(msg.from);
-      console.log(userExist, "userExist==>>");
       if (userExist) {
         try {
           const index = usersResponse.findIndex((item) => item.userNumber === msg.from),
