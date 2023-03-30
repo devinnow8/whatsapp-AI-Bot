@@ -35,6 +35,9 @@ const findUser = (user) => {
         try {
           const index = usersResponse.findIndex((item) => item.userNumber === msg.from),
             messagesArr = usersResponse[index].text;
+          if (messagesArr.length > 5) {
+            messagesArr.splice(0, 1);
+          }
           messagesArr.push(`${msg.name}:${msg.data.text}`);
 
           let conCatString = messagesArr.join("\\n") + "\\n";
