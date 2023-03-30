@@ -42,7 +42,6 @@ const findUser = (user) => {
 
           let conCatString = messagesArr.join("\\n") + "\\n";
           const response = await handleResponse(conCatString);
-          console.log(response, conCatString, "<===== response", "messagesArr==>", messagesArr);
           messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI:${response}`);
 
           await bot.sendText(msg.from, response);
