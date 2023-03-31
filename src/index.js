@@ -5,9 +5,9 @@ const { createBot } = require("whatsapp-cloud-api");
 const { handleResponse } = require("./bot");
 const usersResponse = [];
 
-const findUser = (user) => {
-  return usersResponse.find((res) => res.userNumber === user);
-};
+// const findUser = (user) => {
+//   return usersResponse.find((res) => res.userNumber === user);
+// };
 
 (async () => {
   await dbConnect();
@@ -52,10 +52,10 @@ const findUser = (user) => {
       } else {
         try {
           await bot.sendText(msg.from, `Hello ${msg.name}`);
-          usersResponse.push({
-            userNumber: msg.from,
-            text: [`${msg.name}: ${msg.data.text}\nAI:Hello ${msg.name}`],
-          });
+          //   usersResponse.push({
+          //     userNumber: msg.from,
+          //     text: [`${msg.name}: ${msg.data.text}\nAI:Hello ${msg.name}`],
+          //   });
           saveResponseData(msg);
         } catch (error) {
           console.error(error, "error===>");
