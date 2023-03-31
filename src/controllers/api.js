@@ -47,7 +47,7 @@ const saveResponseData = async (msg, array) => {
       }
 
       // userExist = await chatHistory.findOneAndUpdate({ userNumber: msg.from }, { text: array }, { new: true });
-      console.log(userExist, "userExist++====>123");
+      console.log(userExist, "userExist++====>12345");
       return userExist;
     }
   } catch (error) {
