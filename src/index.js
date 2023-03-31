@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { saveResponseData } = require("./controllers/api");
+const { saveResponseData, getResponseData } = require("./controllers/api");
 const { dbConnect } = require("./DB/dbConnect");
 const { createBot } = require("whatsapp-cloud-api");
 const { handleResponse } = require("./bot");
@@ -30,11 +30,13 @@ const findUser = (user) => {
     // Listen to ALL incoming messages
     bot.on("message", async (msg) => {
       console.log(msg);
-      const userExist = findUser(msg.from);
+      //   const userExist = findUser(msg.from);
+      let userExist = await getResponseData(msg.from);
+      let messagesArr;
       if (userExist) {
         try {
-          const index = usersResponse.findIndex((item) => item.userNumber === msg.from),
-            messagesArr = usersResponse[index].text;
+          //   const index = usersResponse.findIndex((item) => item.userNumber === msg.from);
+          messagesArr = userExist.text;
           if (messagesArr.length > 5) {
             messagesArr.splice(0, 1);
           }
@@ -59,6 +61,7 @@ const findUser = (user) => {
           console.error(error, "error===>");
         }
       }
+      saveResponseData(msg, messagesArr);
     });
   } catch (err) {
     console.error(err);
