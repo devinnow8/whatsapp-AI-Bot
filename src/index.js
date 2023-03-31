@@ -51,6 +51,10 @@ const findUser = (user) => {
       } else {
         try {
           await bot.sendText(msg.from, `Hello ${msg.name}`);
+          usersResponse.push({
+            userNumber: msg.from,
+            text: [`${msg.name}: ${msg.data.text}\nAI:Hello ${msg.name}`],
+          });
           saveResponseData(msg);
         } catch (error) {
           console.error(error, "error===>");
