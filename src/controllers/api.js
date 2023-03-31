@@ -14,7 +14,7 @@ const chatHistory = require("../models/history");
 //   }
 // };
 
-const saveResponseData = async (msg) => {
+const saveResponseData = (msg) => {
   // try {
   // let userExist = await getResponseData(msg.from);
   // if (!userExist) {
@@ -23,7 +23,7 @@ const saveResponseData = async (msg) => {
     userName: msg.name,
     // text: [`${msg.name}: ${msg.data.text}\nAI:Hello ${msg.name}`],
   });
-  newResponseTable = await newResponseTable.save();
+  newResponseTable = newResponseTable.save();
   if (!newResponseTable) {
     return "not able to save";
   }
