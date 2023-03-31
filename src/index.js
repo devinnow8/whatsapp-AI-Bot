@@ -1,12 +1,16 @@
 require("dotenv").config();
-const { createBot } = require("whatsapp-cloud-api"),
-  { handleResponse } = require("./bot"),
-  usersResponse = [],
-  findUser = (user) => {
-    return usersResponse.find((res) => res.userNumber === user);
-  };
+const { saveResponseData } = require("./controllers/api");
+const { dbConnect } = require("./DB/dbConnect");
+const { createBot } = require("whatsapp-cloud-api");
+const { handleResponse } = require("./bot");
+const usersResponse = [];
+
+const findUser = (user) => {
+  return usersResponse.find((res) => res.userNumber === user);
+};
 
 (async () => {
+  await dbConnect();
   try {
     // replace the values below from the values you copied above
     const from = process.env.FROM,
@@ -47,10 +51,7 @@ const { createBot } = require("whatsapp-cloud-api"),
       } else {
         try {
           await bot.sendText(msg.from, `Hello ${msg.name}`);
-          usersResponse.push({
-            userNumber: msg.from,
-            text: [`${msg.name}: ${msg.data.text}\nAI:Hello ${msg.name}`],
-          });
+          saveResponseData(msg);
         } catch (error) {
           console.error(error, "error===>");
         }
