@@ -18,16 +18,24 @@ const saveResponseData = (msg) => {
   // try {
   // let userExist = await getResponseData(msg.from);
   // if (!userExist) {
-  let newResponseTable = new chatHistory({
-    userNumber: msg.from,
-    userName: msg.name,
-    // text: [`${msg.name}: ${msg.data.text}\nAI:Hello ${msg.name}`],
+  chatHistory.findOne({ userNumber: msg.from }, function (err, result) {
+    if (result) {
+      console.log("Number already exists");
+      return;
+    } else {
+      let newResponseTable = new chatHistory({
+        userNumber: msg.from,
+        userName: msg.name,
+        // text: [`${msg.name}: ${msg.data.text}\nAI:Hello ${msg.name}`],
+      });
+      newResponseTable = newResponseTable.save();
+      if (!newResponseTable) {
+        return "not able to save";
+      }
+      return newResponseTable;
+    }
   });
-  newResponseTable = newResponseTable.save();
-  if (!newResponseTable) {
-    return "not able to save";
-  }
-  return newResponseTable;
+
   // }
   // else {
   //   userExist = await chatHistory.findOneAndUpdate({ userNumber: msg.from }, array);
