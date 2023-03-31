@@ -16,7 +16,7 @@ const handleResponse = async (conCatString) => {
     presence_penalty: 0,
   });
   console.log("response====>", response.data.choices[0]);
-  return response.data.choices[0].text.split(":")[1];
+  return response.data.choices[0].text.slice(4);
 };
 
 module.exports = { handleResponse };
