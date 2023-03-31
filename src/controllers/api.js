@@ -38,9 +38,9 @@ const saveResponseData = async (msg, array) => {
 
       console.log(hoursDiff, "hoursDiff==>>>>112");
 
-      if (hoursDiff >= 4) {
+      if (hoursDiff >= 2) {
         console.log("Message is 1 hour or older");
-        userExist = await chatHistory.findOneAndUpdate({ userNumber: msg.from }, { text: [] }, { new: true });
+        userExist = await chatHistory.findOneAndUpdate({ userNumber: msg.from }, { text: array[array.length - 1] }, { new: true });
       } else {
         console.log("Message is less than 1 hour old");
         userExist = await chatHistory.findOneAndUpdate({ userNumber: msg.from }, { text: array }, { new: true });
