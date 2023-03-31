@@ -29,32 +29,24 @@ const saveResponseData = async (msg, array) => {
         return "not able to save";
       }
       return newResponseTable;
-      // chatHistory
-      //   .findOne({ userNumber: msg.from })
-      //   .then((result) => {
-      //     console.log(result, "result==>>");
-
-      //     if (result) {
-      //       console.log("Number already exists");
-      //       return;
-      //     } else {
-      //       let newResponseTable = new chatHistory({
-      //         userNumber: msg.from,
-      //         userName: msg.name,
-      //         // text: [`${msg.name}: ${msg.data.text}\nAI:Hello ${msg.name}`],
-      //       });
-      //       newResponseTable = newResponseTable.save();
-      //       if (!newResponseTable) {
-      //         return "not able to save";
-      //       }
-      //       return newResponseTable;
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
     } else {
-      userExist = await chatHistory.findOneAndUpdate({ userNumber: msg.from }, { text: array }, { new: true });
+      const now = new Date();
+      const messageTimestamp = new Date(userExist?.updatedAt); // Replace with actual message timestamp
+      // const hoursDiff = Math.abs(now - messageTimestamp) / 36e5;
+
+      const hoursDiff = Math.abs(now - messageTimestamp) / 6e4;
+
+      console.log(hoursDiff, "hoursDiff==>>>>112");
+
+      if (hoursDiff >= 4) {
+        console.log("Message is 1 hour or older");
+        userExist = await chatHistory.findOneAndUpdate({ userNumber: msg.from }, { text: [] }, { new: true });
+      } else {
+        console.log("Message is less than 1 hour old");
+        userExist = await chatHistory.findOneAndUpdate({ userNumber: msg.from }, { text: array }, { new: true });
+      }
+
+      // userExist = await chatHistory.findOneAndUpdate({ userNumber: msg.from }, { text: array }, { new: true });
       console.log(userExist, "userExist++===>123");
       return userExist;
     }
