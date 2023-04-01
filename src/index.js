@@ -37,6 +37,7 @@ const { handleResponse } = require("./bot");
 
           let conCatString = messagesArr.join("\\n") + "\\n";
           const response = await handleResponse(conCatString);
+          console.log(response, 'response==>check');
           messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI:${response}`);
           await bot.sendText(msg.from, response, { preview_url: true });
         } catch (error) {
