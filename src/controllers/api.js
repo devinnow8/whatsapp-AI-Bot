@@ -23,7 +23,7 @@ const saveResponseData = async (msg, array) => {
       let newResponseTable = new chatHistory({
         userNumber: msg.from,
         userName: msg.name,
-        text: [`${msg.name}: ${msg.data.text}\nAI: Hello ${msg.name}`],
+        text: [`${msg.name}: ${msg.data.text}\nAI:\nHello ${msg.name}`],
       });
       newResponseTable = newResponseTable.save();
       if (!newResponseTable) {
@@ -80,7 +80,7 @@ const telegramSaveResponseData = async (msg, array) => {
       let newResponseTable = new telegramChatHistory({
         userNumber: chatId,
         userName: name,
-        text: [`${name}: ${msg.text}\nAI: Hello ${name}`],
+        text: [`${name}: ${msg.text}\nAI:\nHello ${name}`],
       });
       newResponseTable = newResponseTable.save();
       if (!newResponseTable) {

@@ -41,7 +41,7 @@ const telegramBot = new TelegramBot(token, { polling: true });
           let conCatString = messagesArr.join("\\n") + "\\n";
           const response = await handleResponse(conCatString);
           console.log(response, "response==>check");
-          messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI:${response}`);
+          messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI:\n${response}`);
           await bot.sendText(msg.from, response, { preview_url: true });
         } catch (error) {
           console.error(error, "error===>");
@@ -78,7 +78,7 @@ const telegramBot = new TelegramBot(token, { polling: true });
           let conCatString = messagesArr.join("\\n") + "\\n";
           const response = await handleResponse(conCatString);
           console.log(response, "response==>check");
-          messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI:${response}`);
+          messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI:\n${response}`);
           await telegramBot.sendMessage(chatId, response);
         } catch (error) {
           console.error(error, "error===>");
