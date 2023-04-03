@@ -34,7 +34,7 @@ const handleResponse = async (conCatString) => {
   const formattedResponse = removeConsecutiveColons(response.data.choices[0].text);
 
   // Remove the first three characters (usually "Q: " or "A: ")
-  const trimmedResponse = formattedResponse.slice(3).trim();
+  const trimmedResponse = formattedResponse.slice(2).trim();
 
   // Log the formatted response for debugging
   console.log("Formatted response:", trimmedResponse);
