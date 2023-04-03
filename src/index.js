@@ -41,30 +41,31 @@ const telegramBot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true 
             let conCatString = messagesArr.join("\\n") + "\\n";
             const response = await handleResponse(conCatString);
             console.log(response, "response==>check");
-            messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI:${response}`);
+            messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI\n${response}`);
             await bot.sendText(msg.from, response, { preview_url: true });
           } catch (error) {
             await bot.sendText(msg.from, `Sorry we can't proceed your request`);
           }
         } catch (error) {
           console.error(error, "error===>");
+          await bot.sendText(msg.from, `Sorry we can't proceed your request`);
         }
       } else {
         try {
           await bot.sendText(msg.from, `Hello ${msg.name}`);
-          saveResponseData(msg, [], true);
+          saveResponseData({ msg: msg, model: true });
         } catch (error) {
           console.error(error, "error===>");
         }
       }
-      saveResponseData(msg, messagesArr, true);
+      saveResponseData({ msg: msg, array: messagesArr, model: true });
     });
 
     // Listen to ALL incoming telegram messages
     telegramBot.on("message", async (msg) => {
       console.log(msg, "msg===>>", telegramBot);
-      let userExist = await getResponseData(msg.chat.id, false);
-      let fullName = msg.chat.first_name + " " + msg.chat.last_name;
+      let userExist = await getResponseData(String(msg.chat.id), false);
+      let fullName = msg.chat.first_name;
       let messagesArr;
       if (userExist) {
         try {
@@ -78,29 +79,29 @@ const telegramBot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true 
             let conCatString = messagesArr.join("\\n") + "\\n";
             const response = await handleResponse(conCatString);
             console.log(response, "response==>check");
-            messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI:${response}`);
+            messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI\n${response}`);
             await telegramBot.sendMessage(msg.chat.id, response);
           } catch (error) {
             await telegramBot.sendMessage(msg.chat.id, `Sorry we can't proceed your request`);
           }
         } catch (error) {
           console.error(error, "error===>");
+          await telegramBot.sendMessage(msg.chat.id, `Sorry we can't proceed your request`);
         }
       } else {
         try {
           await telegramBot.sendMessage(msg.chat.id, `Hello ${fullName}`);
-          saveResponseData(msg, [], false);
+          saveResponseData({ msg: msg, model: true });
         } catch (error) {
           console.error(error, "error===>");
         }
       }
-      saveResponseData(msg, messagesArr, false);
+      saveResponseData({ msg: msg, array: messagesArr, model: true });
 
       // console.log(userExist, "userExist==>>");
       // telegramBot.sendMessage(msg.chat.id, `Hi ${fullName}`);
     });
   } catch (err) {
     console.error(err);
-    await telegramBot.sendMessage(msg.chat.id, `Sorry we can't proceed your request`);
   }
 })();

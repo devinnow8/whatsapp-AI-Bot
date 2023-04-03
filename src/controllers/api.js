@@ -17,16 +17,16 @@ const getResponseData = async (req, model = true) => {
   if (model) {
     getHistoriesResponse(req, chatHistory);
   } else {
-    getHistoriesResponse(String(req), telegramChatHistory);
+    getHistoriesResponse(req, telegramChatHistory);
   }
 };
 
-const saveHistoriesResponse = async (msg, array, model) => {
+const saveHistoriesResponse = async ({ msg, array, model }) => {
   console.log(msg, "msgmsgmsgmsgmsg");
   try {
     const userDetails = model
       ? { from: msg.from, name: msg.name, text: msg.data.text, model: chatHistory }
-      : { from: msg.chat.id, name: msg.chat.first_name + " " + msg.chat.last_name, text: msg.text, model: telegramChatHistory };
+      : { from: String(msg.chat.id), name: msg.chat.first_name, text: msg.text, model: telegramChatHistory };
     let userExist = await getResponseData(userDetails.from, model);
 
     console.log(userExist, "userExist==>>>1234");
@@ -34,7 +34,7 @@ const saveHistoriesResponse = async (msg, array, model) => {
       let newResponseTable = new userDetails.model({
         userNumber: userDetails.from,
         userName: userDetails.name,
-        text: [`${userDetails.name}: ${userDetails.text}\nAI:Hello ${userDetails.name}`],
+        text: [`${userDetails.name}: ${userDetails.text}\nAI\nHello ${userDetails.name}`],
       });
       newResponseTable = newResponseTable.save();
       if (!newResponseTable) {
@@ -67,7 +67,8 @@ const saveHistoriesResponse = async (msg, array, model) => {
   }
 };
 const saveResponseData = async (msg, array, model = true) => {
-  saveHistoriesResponse(msg, array, model);
+  console.log("saveResponseData", msg, "msg===>", array, "array==>", model);
+  saveHistoriesResponse({ msg, array, model });
 };
 
 module.exports = {
