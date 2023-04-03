@@ -5,10 +5,14 @@ const { createBot } = require("whatsapp-cloud-api");
 const TelegramBot = require("node-telegram-bot-api");
 const { saveChatResponseData, getChatResponseData, getTelegramResponseData, saveTelegramResponseData } = require("./controllers/api");
 const { handleResponse } = require("./bot");
-
+const whatsappToken = process.env.TOKEN;
+const from = process.env.FROM;
+const to = process.env.TO;
+const webhookVerifyToken = process.env.WEBHOOKVERIFYTOKEN;
+const bot = createBot(from, whatsappToken);
 // Set up Telegram bot
-const token = process.env.TELEGRAM_TOKEN;
-const telegramBot = new TelegramBot(token, { polling: true });
+const telegramToken = process.env.TELEGRAM_TOKEN;
+const telegramBot = new TelegramBot(telegramToken, { polling: true });
 
 // Define common function to handle incoming messages
 const handleMessage = async (msg, isTelegram) => {
@@ -36,7 +40,7 @@ const handleMessage = async (msg, isTelegram) => {
       console.log(response, "response==>check");
 
       // Update last message in message history with AI response
-      messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI:\n${response}`);
+      messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI\n${response}`);
 
       // Send AI response to user
       if (isTelegram) {
@@ -80,14 +84,7 @@ const handleMessage = async (msg, isTelegram) => {
 // Set up WhatsApp bot
 (async () => {
   await dbConnect();
-
   try {
-    const from = process.env.FROM;
-    const token = process.env.TOKEN;
-    const to = process.env.TO;
-    const webhookVerifyToken = process.env.WEBHOOKVERIFYTOKEN;
-    const bot = createBot(from, token);
-
     const { app } = await bot.startExpressServer({
       webhookVerifyToken,
     });
