@@ -9,12 +9,6 @@ const configuration = new Configuration({
 // Create an OpenAI API instance with the configuration
 const openai = new OpenAIApi(configuration);
 
-// Export the OpenAI API instance for reuse
-module.exports = { openai };
-
-// handler.js
-const { openai } = require("./openai");
-
 // Define a helper function to remove consecutive colons from the response
 const removeConsecutiveColons = (text) => {
   return text.replace(/:{2,}/g, ":");
