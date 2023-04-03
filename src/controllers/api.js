@@ -12,7 +12,7 @@ const getResponseData = async (model, userNumber) => {
 };
 
 // Common function to save response data to the database
-const saveResponseData = async (model, userNumber, userName, text) => {
+const saveResponseData = async (model, userNumber, userName, userText, text) => {
   try {
     const userExist = await getResponseData(model, userNumber);
     console.log(userExist, "userExist==>>>1234");
@@ -20,7 +20,7 @@ const saveResponseData = async (model, userNumber, userName, text) => {
       const newResponseTable = new model({
         userNumber,
         userName,
-        text: [`${userName}: ${text}\nAI\nHello ${userName}`],
+        text: [`${userName}: ${userText}\nAI\nHello ${userName}`],
       });
       const savedResponse = await newResponseTable.save();
       return savedResponse;
@@ -48,7 +48,8 @@ const getChatResponseData = async (userNumber) => {
 const saveChatResponseData = async (msg, text) => {
   const userNumber = msg.from;
   const userName = msg.name;
-  return await saveResponseData(chatHistory, userNumber, userName, text);
+  const userText = msg.data.text;
+  return await saveResponseData(chatHistory, userNumber, userName, userText, text);
 };
 
 // Get response data for Telegram chat
@@ -60,7 +61,8 @@ const getTelegramResponseData = async (userNumber) => {
 const saveTelegramResponseData = async (msg, text) => {
   const userNumber = msg.chat.id;
   const userName = msg.from.first_name;
-  return await saveResponseData(telegramChatHistory, userNumber, userName, text);
+  const userText = msg.text;
+  return await saveResponseData(telegramChatHistory, userNumber, userName, userText, text);
 };
 
 module.exports = {
