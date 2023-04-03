@@ -80,7 +80,7 @@ const telegramSaveResponseData = async (msg, array) => {
       let newResponseTable = new telegramChatHistory({
         userNumber: chatId,
         userName: name,
-        text: [`${name}: ${msg.text}\nAI:Hello ${name}`],
+        text: [`${name}: ${msg.text}\nAI: Hello ${name}`],
       });
       newResponseTable = newResponseTable.save();
       if (!newResponseTable) {

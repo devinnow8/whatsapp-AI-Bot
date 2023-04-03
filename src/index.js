@@ -25,7 +25,7 @@ const telegramBot = new TelegramBot(token, { polling: true });
       res.sendFile(__dirname + "/privacy-policy.html");
     });
 
-    // Listen to ALL incoming messages
+    // Listen to ALL incoming whatsapp messages
     bot.on("message", async (msg) => {
       console.log(msg);
       let userExist = await getResponseData(msg.from);
