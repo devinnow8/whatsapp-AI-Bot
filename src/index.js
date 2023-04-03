@@ -16,8 +16,6 @@ const telegramBot = new TelegramBot(telegramToken, { polling: true });
 
 // Define common function to handle incoming messages
 const handleMessage = async (msg, isTelegram) => {
-  console.log(msg);
-
   // Check if user exists in database
   let userExist = isTelegram ? await getTelegramResponseData(msg.chat.id) : await getChatResponseData(msg.from);
   let messagesArr;
@@ -37,8 +35,6 @@ const handleMessage = async (msg, isTelegram) => {
       // Concatenate message history into a single string and pass to AI for processing
       let conCatString = messagesArr.join("\\n") + "\\n";
       const response = await handleResponse(conCatString);
-      console.log(response, "response==>check");
-
       // Update last message in message history with AI response
       messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI\n${response}`);
 

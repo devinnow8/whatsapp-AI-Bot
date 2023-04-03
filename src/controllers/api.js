@@ -15,7 +15,6 @@ const getResponseData = async (model, userNumber) => {
 const saveResponseData = async (model, userNumber, userName, userText, text) => {
   try {
     const userExist = await getResponseData(model, userNumber);
-    console.log(userExist, "userExist==>>>1234");
     if (!userExist) {
       const newResponseTable = new model({
         userNumber,
@@ -27,11 +26,9 @@ const saveResponseData = async (model, userNumber, userName, userText, text) => 
     } else {
       const now = new Date();
       const messageTimestamp = new Date(userExist?.updatedAt);
-      const hoursDiff = Math.abs(now - messageTimestamp) / 6e4;
-      console.log(hoursDiff, "hoursDiff==>>>>112");
+      const hoursDiff = Math.abs(now - messageTimestamp) / 36e5;
       const updatedResponse =
-        hoursDiff >= 2 ? await model.findOneAndUpdate({ userNumber }, { text: text[text.length - 1] }, { new: true }) : await model.findOneAndUpdate({ userNumber }, { text: text }, { new: true });
-      console.log(updatedResponse, "updatedResponse++====>12345");
+        hoursDiff >= 1 ? await model.findOneAndUpdate({ userNumber }, { text: text[text.length - 1] }, { new: true }) : await model.findOneAndUpdate({ userNumber }, { text: text }, { new: true });
       return updatedResponse;
     }
   } catch (error) {
