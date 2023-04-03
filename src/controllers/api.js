@@ -23,7 +23,7 @@ const saveResponseData = async (msg, array) => {
       let newResponseTable = new chatHistory({
         userNumber: msg.from,
         userName: msg.name,
-        text: [`${msg.name}: ${msg.data.text}\nAI:Hello ${msg.name}`],
+        text: [`${msg.name}: ${msg.data.text}\nAI: Hello ${msg.name}`],
       });
       newResponseTable = newResponseTable.save();
       if (!newResponseTable) {
