@@ -26,7 +26,7 @@ const saveHistoriesResponse = async (msg, array, model) => {
   try {
     const userDetails = model
       ? { from: msg.from, name: msg.name, text: msg.data.text, model: chatHistory }
-      : { from: msg.from.id, name: msg.chat.first_name + " " + msg.chat.last_name, text: msg.text, model: telegramChatHistory };
+      : { from: msg.chat.id, name: msg.chat.first_name + " " + msg.chat.last_name, text: msg.text, model: telegramChatHistory };
     let userExist = await getResponseData(userDetails.from, model);
 
     console.log(userExist, "userExist==>>>1234");

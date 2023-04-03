@@ -63,7 +63,7 @@ const telegramBot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true 
     // Listen to ALL incoming telegram messages
     telegramBot.on("message", async (msg) => {
       console.log(msg, "msg===>>", telegramBot);
-      let userExist = await getResponseData(msg.from.id, false);
+      let userExist = await getResponseData(msg.chat.id, false);
       let fullName = msg.chat.first_name + " " + msg.chat.last_name;
       let messagesArr;
       if (userExist) {
@@ -79,16 +79,16 @@ const telegramBot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true 
             const response = await handleResponse(conCatString);
             console.log(response, "response==>check");
             messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI:${response}`);
-            await telegramBot.sendMessage(msg.from.id, response);
+            await telegramBot.sendMessage(msg.chat.id, response);
           } catch (error) {
-            await telegramBot.sendMessage(msg.from.id, `Sorry we can't proceed your request`);
+            await telegramBot.sendMessage(msg.chat.id, `Sorry we can't proceed your request`);
           }
         } catch (error) {
           console.error(error, "error===>");
         }
       } else {
         try {
-          await telegramBot.sendMessage(msg.from.id, `Hello ${fullName}`);
+          await telegramBot.sendMessage(msg.chat.id, `Hello ${fullName}`);
           saveResponseData(msg, [], false);
         } catch (error) {
           console.error(error, "error===>");
@@ -97,10 +97,10 @@ const telegramBot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true 
       saveResponseData(msg, messagesArr, false);
 
       // console.log(userExist, "userExist==>>");
-      // telegramBot.sendMessage(msg.from.id, `Hi ${fullName}`);
+      // telegramBot.sendMessage(msg.chat.id, `Hi ${fullName}`);
     });
   } catch (err) {
     console.error(err);
-    await telegramBot.sendMessage(msg.from.id, `Sorry we can't proceed your request`);
+    await telegramBot.sendMessage(msg.chat.id, `Sorry we can't proceed your request`);
   }
 })();
