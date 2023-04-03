@@ -91,12 +91,12 @@ const telegramBot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true 
       } else {
         try {
           await telegramBot.sendMessage(msg.chat.id, `Hello ${fullName}`);
-          saveResponseData({ msg: msg, model: true });
+          saveResponseData({ msg: msg, model: false });
         } catch (error) {
           console.error(error, "error===>");
         }
       }
-      saveResponseData({ msg: msg, array: messagesArr, model: true });
+      saveResponseData({ msg: msg, array: messagesArr, model: false });
 
       // console.log(userExist, "userExist==>>");
       // telegramBot.sendMessage(msg.chat.id, `Hi ${fullName}`);
