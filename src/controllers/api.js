@@ -19,7 +19,7 @@ const saveResponseData = async (model, userNumber, userName, userText, text) => 
       const newResponseTable = new model({
         userNumber,
         userName,
-        text: [`${userName}: ${userText}\nAI\nHello ${userName}`],
+        text: [`${userName}: ${userText}\nAI: Hello ${userName}`],
       });
       const savedResponse = await newResponseTable.save();
       return savedResponse;

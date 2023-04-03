@@ -36,7 +36,7 @@ const handleMessage = async (msg, isTelegram) => {
       let conCatString = messagesArr.join("\\n") + "\\n";
       const response = await handleResponse(conCatString);
       // Update last message in message history with AI response
-      messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI\n${response}`);
+      messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI: ${response}`);
 
       // Send AI response to user
       if (isTelegram) {
