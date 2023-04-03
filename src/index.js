@@ -45,8 +45,10 @@ const handleMessage = async (msg, isTelegram) => {
       // Send AI response to user
       if (isTelegram) {
         await telegramBot.sendMessage(msg.chat.id, response);
+        saveTelegramResponseData(msg, messagesArr);
       } else {
         await bot.sendText(msg.from, response, { preview_url: true });
+        saveChatResponseData(msg, messagesArr);
       }
     } catch (error) {
       console.error(error, "error===>");
@@ -71,13 +73,6 @@ const handleMessage = async (msg, isTelegram) => {
     } catch (error) {
       console.error(error, "error===>");
     }
-  }
-
-  // Save updated message history to database
-  if (isTelegram) {
-    saveTelegramResponseData(msg, messagesArr);
-  } else {
-    saveChatResponseData(msg, messagesArr);
   }
 };
 

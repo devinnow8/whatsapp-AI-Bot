@@ -30,7 +30,7 @@ const saveResponseData = async (model, userNumber, userName, userText, text) => 
       const hoursDiff = Math.abs(now - messageTimestamp) / 6e4;
       console.log(hoursDiff, "hoursDiff==>>>>112");
       const updatedResponse =
-        hoursDiff >= 2 ? await model.findOneAndUpdate({ userNumber }, { text: text[text.length - 1] }, { new: true }) : await model.findOneAndUpdate({ userNumber }, { text }, { new: true });
+        hoursDiff >= 2 ? await model.findOneAndUpdate({ userNumber }, { text: text[text.length - 1] }, { new: true }) : await model.findOneAndUpdate({ userNumber }, { text: text }, { new: true });
       console.log(updatedResponse, "updatedResponse++====>12345");
       return updatedResponse;
     }
