@@ -1,8 +1,8 @@
 const chatHistory = require("../models/history");
-
-const getResponseData = async (req, res, next) => {
+const telegramChatHistory = require("../models/telegram-chat");
+const getHistoriesResponse = async (req, model) => {
   try {
-    const isResponse = await chatHistory.findOne({
+    const isResponse = await model.findOne({
       userNumber: req,
     });
     if (!isResponse) {
@@ -13,16 +13,27 @@ const getResponseData = async (req, res, next) => {
     return error.message;
   }
 };
+const getResponseData = async (req, model = true) => {
+  if (model) {
+    getHistoriesResponse(req, chatHistory);
+  } else {
+    getHistoriesResponse(String(req), telegramChatHistory);
+  }
+};
 
-const saveResponseData = async (msg, array) => {
+const saveHistoriesResponse = async (msg, array, model) => {
   try {
-    let userExist = await getResponseData(msg.from);
+    const userDetails = model
+      ? { from: msg.from, name: msg.name, text: msg.data.text, model: chatHistory }
+      : { from: msg.from.id, name: msg.chat.first_name + " " + msg.chat.last_name, text: msg.text, model: telegramChatHistory };
+    let userExist = await getResponseData(userDetails.from, model);
+
     console.log(userExist, "userExist==>>>1234");
     if (!userExist) {
-      let newResponseTable = new chatHistory({
-        userNumber: msg.from,
-        userName: msg.name,
-        text: [`${msg.name}: ${msg.data.text}\nAI:Hello ${msg.name}`],
+      let newResponseTable = new userDetails.model({
+        userNumber: userDetails.from,
+        userName: userDetails.name,
+        text: [`${userDetails.name}: ${userDetails.text}\nAI:Hello ${userDetails.name}`],
       });
       newResponseTable = newResponseTable.save();
       if (!newResponseTable) {
@@ -40,10 +51,10 @@ const saveResponseData = async (msg, array) => {
 
       if (hoursDiff >= 2) {
         console.log("Message is 1 hour or older");
-        userExist = await chatHistory.findOneAndUpdate({ userNumber: msg.from }, { text: array[array.length - 1] }, { new: true });
+        userExist = await userDetails.model.findOneAndUpdate({ userNumber: userDetails.from }, { text: array[array.length - 1] }, { new: true });
       } else {
         console.log("Message is less than 1 hour old");
-        userExist = await chatHistory.findOneAndUpdate({ userNumber: msg.from }, { text: array }, { new: true });
+        userExist = await userDetails.model.findOneAndUpdate({ userNumber: userDetails.from }, { text: array }, { new: true });
       }
 
       // userExist = await chatHistory.findOneAndUpdate({ userNumber: msg.from }, { text: array }, { new: true });
@@ -53,6 +64,9 @@ const saveResponseData = async (msg, array) => {
   } catch (error) {
     return error.message;
   }
+};
+const saveResponseData = async (msg, array, model = true) => {
+  saveHistoriesResponse(msg, array, model);
 };
 
 module.exports = {
