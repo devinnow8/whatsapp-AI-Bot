@@ -66,7 +66,7 @@ const saveHistoriesResponse = async ({ msg, array, model }) => {
     return error.message;
   }
 };
-const saveResponseData = async (msg, array, model = true) => {
+const saveResponseData = async ({ msg, array, model = true }) => {
   console.log("saveResponseData", msg, "msg===>", array, "array==>", model);
   saveHistoriesResponse({ msg, array, model });
 };
