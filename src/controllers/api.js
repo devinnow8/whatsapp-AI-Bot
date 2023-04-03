@@ -22,6 +22,7 @@ const getResponseData = async (req, model = true) => {
 };
 
 const saveHistoriesResponse = async (msg, array, model) => {
+  console.log(msg, "msgmsgmsgmsgmsg");
   try {
     const userDetails = model
       ? { from: msg.from, name: msg.name, text: msg.data.text, model: chatHistory }

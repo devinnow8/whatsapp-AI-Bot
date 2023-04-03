@@ -52,7 +52,7 @@ const telegramBot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true 
       } else {
         try {
           await bot.sendText(msg.from, `Hello ${msg.name}`);
-          saveResponseData(msg, true);
+          saveResponseData(msg, [], true);
         } catch (error) {
           console.error(error, "error===>");
         }
