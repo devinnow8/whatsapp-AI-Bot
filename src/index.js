@@ -5,6 +5,7 @@ const { createBot } = require("whatsapp-cloud-api");
 const TelegramBot = require("node-telegram-bot-api");
 const { saveChatResponseData, getChatResponseData, getTelegramResponseData, saveTelegramResponseData } = require("./controllers/api");
 const { handleResponse } = require("./bot");
+const { keepAlive } = require("../alive");
 const whatsappToken = process.env.TOKEN;
 const from = process.env.FROM;
 const to = process.env.TO;
@@ -89,6 +90,9 @@ const handleMessage = async (msg, isTelegram) => {
     bot.on("message", async (msg) => {
       await handleMessage(msg, false);
     });
+
+    //to keep render active
+    keepAlive();
 
     // Listen to incoming Telegram messages
     telegramBot.on("message", async (msg) => {
