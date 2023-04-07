@@ -15,9 +15,26 @@ const handleResponse = async (conCatString) => {
     frequency_penalty: 0,
     presence_penalty: 0,
   });
-  console.log("response====>", response.data.choices[0]);
-  const formattedResponse = response.data.choices[0].text.replace(/:{2,}/g, ":");
-  return formattedResponse.slice(3).trim();
+  let formattedResponse = response.data.choices[0].text;
+  console.log("formattedResponse: ", formattedResponse);
+  return formattedResponse;
 };
 
-module.exports = { handleResponse };
+const handleMsgBot = async (userExist, textMsg) => {
+  let messagesArr = userExist.text;
+  if (messagesArr.length > 5) {
+    messagesArr.splice(0, 1);
+  }
+  messagesArr.push(`${userExist.userName}:${textMsg}`);
+
+  let conCatString = messagesArr.join("\\n") + "AI: ? \\n";
+  console.log("conCatString: ", conCatString);
+
+  const response = await handleResponse(conCatString);
+  console.log("response: ", response);
+  messagesArr.splice(messagesArr.length - 1, 1, messagesArr[messagesArr.length - 1] + `\nAI:\n${response}`);
+
+  return { response, messagesArr };
+};
+
+module.exports = { handleResponse, handleMsgBot };
